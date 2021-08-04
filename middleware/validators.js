@@ -9,13 +9,16 @@ Validations
 
 // Example Validation
 exports.validateExample = [
-  check("name").not().isEmpty().trim(),
-  check("cnic").not().isEmpty().trim(),
-  check("email").isEmail().trim(),
-  check("password").not().isEmpty().trim().isLength({ min: 8 }),
-  check("gender").not().isEmpty(),
-  check("role").not().isEmpty(),
-  check("number").not().isEmpty().trim(),
+  check("name", "Name is required.").notEmpty().trim(),
+  check("cnic", "CNIC is required.").notEmpty().trim(),
+  check("email", "Email is required.").notEmpty().isEmail().trim(),
+  check("password", "Password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
+  check("gender", "Gender is required.").notEmpty(),
+  check("role", "Role is required.").notEmpty(),
+  check("number", "Number is required.").notEmpty().trim(),
 ];
 
 /*
@@ -26,7 +29,7 @@ Result
 exports.isValidated = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.status(400).send("Please fill all the required fields correctly");
+    res.status(400).send({ errors: errors.array() });
   } else {
     next();
   }
