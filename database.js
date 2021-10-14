@@ -18,3 +18,9 @@ mongoose
   .catch((err) => {
     console.log("DB Connection Error :( -------> ", err);
   });
+
+// exporting models
+module.exports = {
+  User: require("./models/user"),
+  // add more models here
+};
