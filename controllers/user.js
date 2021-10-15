@@ -68,9 +68,36 @@ async function login(req, res, next) {
   }
 }
 
+// checking if user is authenticated
+function checkAuth(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.json({ error: "Authenctication Failed" });
+  }
+}
+
+// sending the logged in user in response
+async function loggedIn(req, res) {
+  res.json({ status: 200, user: req.user });
+}
+
+// logout user
+async function logout(req, res) {
+  try {
+    req.logOut();
+    res.status(200).send("Logout successfully");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
 // exporting controller functions
 module.exports = {
   getAll,
   register,
   login,
+  loggedIn,
+  checkAuth,
+  logout,
 };

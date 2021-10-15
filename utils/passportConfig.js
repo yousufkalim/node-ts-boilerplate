@@ -4,6 +4,7 @@ const User = db.User;
 const bcrypt = require("bcryptjs");
 const localStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 
 // export passport strategy
 module.exports = function (passport) {
@@ -30,11 +31,29 @@ module.exports = function (passport) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:3000/",
+        callbackURL: process.env.callbackURL,
       },
       (accessToken, refreshToken, profile, done) => {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {
           return done(err, user);
+        });
+      }
+    )
+  );
+  // creating facebook passport strategy
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: process.env.FACEBOOK_APP_ID,
+        clientSecret: process.env.FACEBOOK_APP_SECRET,
+        callbackURL: process.env.callbackURL,
+      },
+      function (accessToken, refreshToken, profile, done) {
+        User.findOrCreate().then(function (err, user) {
+          if (err) {
+            return done(err);
+          }
+          done(null, user);
         });
       }
     )
