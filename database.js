@@ -21,6 +21,6 @@ mongoose
 
 // exporting models
 module.exports = {
-  User: require("./models/user"),
+  User: require("./models/users"),
   // add more models here
 };

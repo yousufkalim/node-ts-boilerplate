@@ -6,25 +6,27 @@ require("../utils/passportConfig")(passport);
 const User = db.User;
 
 // get all users
-async function getAll(req, res) {
+exports.getAll = async (req, res) => {
   try {
     //   getting all users from user cellection
     let users = await User.find();
     // sending user in response
-    res.json({ status: 200, users });
+    res.json({ users });
   } catch (err) {
+    console.log("Error --------> ", err);
     //   sending error in response
     res.status(500).json(err);
   }
-}
+};
 
 // register user
-async function register(req, res) {
+exports.register = async (req, res) => {
   try {
     //   checking if email already exist
     if (await User.findOne({ email: req.body.email })) {
       throw 'Email "' + req.body.email + '" is already taken';
     }
+
     // checking for picture
     if (req.file) {
       req.body = { ...req.body, picture: req.file.path };
@@ -38,15 +40,16 @@ async function register(req, res) {
     //   saving user
     await user.save();
     // sending error in response with status code of 200
-    res.json({ status: 200, user });
+    res.json({ user });
   } catch (err) {
+    console.log("Error --------> ", err);
     // sending error in response
-    res.status(500).json({ error: err.message });
+    res.status(500).json(err);
   }
-}
+};
 
 // Login user
-async function login(req, res, next) {
+exports.login = async (req, res, next) => {
   try {
     // authentication with passport
     passport.authenticate("local", (err, user, info) => {
@@ -54,7 +57,7 @@ async function login(req, res, next) {
       if (err) throw err;
       // checking for user
       if (!user) {
-        res.send("Invalid email or password");
+        res.status(401).json(info?.message);
       } else {
         // Logging user in and sending in response
         req.logIn(user, (err) => {
@@ -64,40 +67,23 @@ async function login(req, res, next) {
       }
     })(req, res, next);
   } catch (err) {
+    console.log("Error --------> ", err);
     res.status(500).json(err);
   }
-}
-
-// checking if user is authenticated
-function checkAuth(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    res.json({ error: "Authenctication Failed" });
-  }
-}
+};
 
 // sending the logged in user in response
-async function loggedIn(req, res) {
-  res.json({ status: 200, user: req.user });
-}
+exports.loggedIn = async (req, res) => {
+  res.json({ user: req.user });
+};
 
 // logout user
-async function logout(req, res) {
+exports.logout = async (req, res) => {
   try {
     req.logOut();
     res.status(200).send("Logout successfully");
   } catch (err) {
+    console.log("Error --------> ", err);
     res.status(500).json(err);
   }
-}
-
-// exporting controller functions
-module.exports = {
-  getAll,
-  register,
-  login,
-  loggedIn,
-  checkAuth,
-  logout,
 };

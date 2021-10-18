@@ -10,7 +10,7 @@ module.exports = (app) => {
   app.use(cors({ credentials: true, origin: true }));
   app.use(
     session({
-      secret: "secretCode",
+      secret: process.env.SESSION_SECRET,
       resave: true,
       saveUninitialized: true,
     })

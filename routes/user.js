@@ -1,29 +1,17 @@
 // Init
 const router = require("express").Router();
 const multer = require("multer");
+const checkAuth = require("../middleware/checkAuth");
+const storage = require("../middleware/multer");
 const {
   getAll,
   register,
   login,
   loggedIn,
-  checkAuth,
   logout,
 } = require("../controllers/user");
 const passport = require("passport");
 require("../utils/passportConfig")(passport);
-
-// initilizing multer disk storage
-var storage = multer.diskStorage({
-  // destination to save data
-  destination: function (req, file, cb) {
-    cb(null, "uploads/users");
-  },
-  //   file naming convention
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
 // initilizing multer object
 const uploadUsers = multer({ storage: storage });
 

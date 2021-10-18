@@ -13,13 +13,14 @@ module.exports = function (passport) {
     new localStrategy({ usernameField: "email" }, (email, password, done) => {
       User.findOne({ email: email }, (err, user) => {
         if (err) throw err;
-        if (!user) return done(null, false);
+        if (!user)
+          return done(null, false, { message: "Invalid email or password" });
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) throw err;
           if (result) {
             return done(null, user);
           } else {
-            return done(null, false);
+            return done(null, false, { message: "Invalid email or password" });
           }
         });
       });
