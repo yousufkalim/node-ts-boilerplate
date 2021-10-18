@@ -57,7 +57,7 @@ exports.login = async (req, res, next) => {
       if (err) throw err;
       // checking for user
       if (!user) {
-        res.status(401).json(info?.message);
+        res.status(401).json(info.message);
       } else {
         // Logging user in and sending in response
         req.logIn(user, (err) => {
