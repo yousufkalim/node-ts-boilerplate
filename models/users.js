@@ -31,6 +31,16 @@ const userSchema = mongoose.Schema({
   picture: {
     type: String,
   },
+  serviceStart: {
+    type: Date,
+  },
+  serviceEnd: {
+    type: Date,
+  },
+  role: {
+    type: String,
+    default: "user",
+  },
   ////  you can add more field here
 });
 
