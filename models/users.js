@@ -1,48 +1,48 @@
-//// init
+/**
+ * User schema
+ * @author Yousuf Kalim
+ */
 const mongoose = require("mongoose");
 
-//// schema
-const userSchema = mongoose.Schema({
-  firstname: {
-    type: String,
-    required: true,
+// Schema
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    cnic: {
+      type: Number,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 8,
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: ["admin", "user"],
+      default: "user",
+    },
+    photo: String,
+    number: String,
   },
-  lastname: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-  },
-  address: {
-    type: String,
-  },
-  description: {
-    type: String,
-  },
-  picture: {
-    type: String,
-  },
-  serviceStart: {
-    type: Date,
-  },
-  serviceEnd: {
-    type: Date,
-  },
-  role: {
-    type: String,
-    default: "user",
-  },
-  ////  you can add more field here
-});
+  {
+    timestamps: true,
+  }
+);
 
-// exporting model
+// Model
 module.exports = mongoose.model("users", userSchema);

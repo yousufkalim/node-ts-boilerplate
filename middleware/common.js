@@ -1,24 +1,16 @@
-// Init
+/**
+ * Common middleware that we have to use by default every time
+ * @author Yousuf Kalim
+ */
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-const passport = require("passport");
-const session = require("express-session");
 
 // Common Middleware
 module.exports = (app) => {
-  app.use(cors({ credentials: true, origin: true }));
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      resave: true,
-      saveUninitialized: true,
-    })
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
-  app.use(logger("dev"));
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json());
-  app.use("/uploads", express.static("uploads", { maxAge: "31536000" }));
+  app.use(cors({ origin: true })); // CORS (Cross Origin Policy) to restrict unknown requests
+  app.use(logger("dev")); // Morgan - to log every request in console
+  app.use(express.urlencoded({ extended: true })); // to get url encoded data from requests
+  app.use(express.json()); // to send json data in response (It's mandatory in rest api's)
+  app.use("/uploads", express.static("uploads", { maxAge: "31536000" })); // Static path to serve uploaded images with cache policy
 };
