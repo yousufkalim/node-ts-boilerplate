@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/falconitconsultant/Linxar-nodejs.git"
+    "url": "git+https://github.com/falconitconsultant/Node-JS.git"
   },
   "author": "Yousuf Kalim",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/falconitconsultant/Linxar-nodejs/issues"
+    "url": "https://github.com/falconitconsultant/Node-JS/issues"
   },
-  "homepage": "https://github.com/falconitconsultant/Linxar-nodejs#readme",
+  "homepage": "https://github.com/falconitconsultant/Node-JS#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
