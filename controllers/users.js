@@ -36,7 +36,7 @@ exports.create = async (req, res) => {
     }
 
     // Creating User
-    password = bcrypt.hashSync(password, parseInt(bcryptSalt)); // Hashing the password with salt 8
+    req.body.password = bcrypt.hashSync(password, parseInt(bcryptSalt)); // Hashing the password with salt 8
     const user = await Users.create(req.body); // Adding user in db
 
     // Done
