@@ -1,6 +1,7 @@
 var nodemailer = require("nodemailer");
-const sender_email = process.env.EMAIL;
-const sender_password = process.env.PASSWORD;
+const sender_name = process.env.MAILER_DOMAIN;
+const sender_email = process.env.MAILER_EMAIL;
+const sender_password = process.env.MAILER_PASSWORD;
 
 exports.sendEmail = (email, password) => {
   return new Promise((resolve, reject) => {
@@ -13,9 +14,9 @@ exports.sendEmail = (email, password) => {
     });
 
     var mailOptions = {
-      from: `Falcon Consulting <${sender_email}>`,
+      from: `${sender_name} <${sender_email}>`,
       to: email,
-      subject: "Your New Password Is",
+      subject: "Your password has been changed",
       text: password,
     };
 
