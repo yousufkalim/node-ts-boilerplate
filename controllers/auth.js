@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { sendEmail } = require("../utils/sendEmail");
 const bcryptSalt = process.env.BCRYPT_SALT || 10;
-const tokenSecret = process.env.JWT_SECRET || "azW3ffVh!DEpqaQ83C7bbAjv";
+const tokenSecret = process.env.JWT_SECRET;
 
 /**
  * Login
@@ -128,4 +128,10 @@ exports.forgot = async (req, res) => {
     console.log("Error ----> ", err);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
+};
+
+// Confirm Auth
+exports.confirmAuth = async (req, res) => {
+  // If user authenticated
+  res.json({ success: true, user: req.user });
 };

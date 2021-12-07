@@ -4,6 +4,7 @@
  */
 const router = require("express").Router();
 const auth = require("../controllers/auth");
+const { checkAuth } = require("../middleware/checkAuth");
 const {
   validateLogin,
   isValidated,
@@ -17,6 +18,7 @@ const {
 
 // Read
 router.post("/login", validateLogin, isValidated, auth.login); // Get all users at once
+router.get("/", checkAuth, auth.confirmAuth);
 router.put(
   "/password/:userId",
   changePasswordValidate,
