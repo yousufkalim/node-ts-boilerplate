@@ -14,6 +14,9 @@ const {
 /**
  * ////////////////////////// Routes /////////////////////////
  * @method post user login
+ * @method get check auth
+ * @method put change password
+ * @method post forgot email
  */
 
 // Read

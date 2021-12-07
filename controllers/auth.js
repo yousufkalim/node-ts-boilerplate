@@ -16,31 +16,38 @@ const tokenSecret = process.env.JWT_SECRET;
  */
 exports.login = async (req, res) => {
   try {
+    // Getting email and password
     const { email, password } = req.body;
 
+    // Getting user from db
     const user = await Users.findOne({ email });
 
     if (!user) {
+      // If user not found
       console.log(user);
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
 
+    // Comparing password
     const isMatched = bcrypt.compareSync(password, user.password);
 
     if (!isMatched) {
+      // If password not matched
       return res
         .status(400)
         .json({ success: false, message: "Invalid Password" });
     }
 
-    // Generate token
+    // Creating payload with user object
     const payload = { user };
 
+    // Generating token
     jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
 
+      // done
       res.json({ success: true, user, token });
     });
   } catch (err) {
@@ -96,6 +103,11 @@ exports.changePassword = async (req, res) => {
   }
 };
 
+/**
+ * Forgot password
+ * @param {object} req
+ * @param {object} res
+ */
 exports.forgot = async (req, res) => {
   try {
     let { email } = req.params;
@@ -107,13 +119,17 @@ exports.forgot = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
+    // Generating random password
     let randomPassword = Math.random().toString(36).slice(-8);
 
+    // Sending email to user
     sendEmail(email, randomPassword)
       .then(async () => {
+        // If email is sent then we have to update the password in db
         user.password = await bcrypt.hash(randomPassword, parseInt(bcryptSalt));
         await user.save();
 
+        // Done
         res.json({ success: true, message: "Email sent successfully" });
       })
       .catch((err) => {
@@ -130,7 +146,11 @@ exports.forgot = async (req, res) => {
   }
 };
 
-// Confirm Auth
+/**
+ * Confirm auth
+ * @param {object} req
+ * @param {object} res
+ */
 exports.confirmAuth = async (req, res) => {
   // If user authenticated
   res.json({ success: true, user: req.user });

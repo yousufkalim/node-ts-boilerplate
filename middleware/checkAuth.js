@@ -1,4 +1,7 @@
-// Init
+/**
+ * Check auth middleware
+ * @author Yousuf Kalim
+ */
 const jwt = require("jsonwebtoken");
 const tokenSecret = process.env.JWT_SECRET;
 
