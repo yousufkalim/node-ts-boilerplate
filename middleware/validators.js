@@ -39,6 +39,31 @@ exports.validateUserUpdate = [
   check("number", "Number is required.").notEmpty().isNumeric().trim(),
 ];
 
+// Login validation
+exports.validateLogin = [
+  check("email", "Email is required").notEmpty().isEmail().trim().toLowerCase(),
+  check("password", "Password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
+];
+
+// Change password validation
+exports.changePasswordValidate = [
+  check("oldPassword", "Old Password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
+  check("newPassword", "New password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
+  check("confirmPassword", "Confirm password is required.")
+    .notEmpty()
+    .trim()
+    .isLength({ min: 8 }),
+];
+
 /*
 ======================
 Result
