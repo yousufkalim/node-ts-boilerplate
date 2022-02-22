@@ -13,7 +13,7 @@ const bcryptSalt = process.env.BCRYPT_SALT || 10;
  */
 exports.create = async (req, res) => {
   try {
-    let { email, password, confirmPassword } = req.body; // Getting required fields from body
+    let { email, password } = req.body; // Getting required fields from body
     const existingUser = await Users.findOne({ email }); // Finding already existing user
 
     // Extra Validations
@@ -22,12 +22,6 @@ exports.create = async (req, res) => {
       return res
         .status(409)
         .json({ success: false, message: "User already exists." });
-    } else if (password !== confirmPassword) {
-      // Passwords not same
-      return res.status(400).json({
-        success: false,
-        message: "Password and Confirm Password are not same.",
-      });
     }
 
     // Getting url of the image
@@ -89,6 +83,15 @@ exports.getById = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const userId = req.params.userId; // Getting user id from URL parameter
+
+    // If user want to update it's password
+    if (req.body.password) {
+      req.body.password = bcrypt.hashSync(
+        req.body.password,
+        parseInt(bcryptSalt)
+      );
+    }
+
     const user = await Users.findByIdAndUpdate(userId, req.body, { new: true }); // Updating the user
     res.json({ success: true, user }); // Success
   } catch (err) {
