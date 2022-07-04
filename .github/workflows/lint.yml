@@ -1,0 +1,25 @@
+# This is a GitHub Action developed by Yousuf Kalim - MERN TL
+# This action uses airbnb style guide to lint JS and TS projects in a pull request with inline error and warning annotations.
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: yousufkalim/eslint-action@latest # Action integration
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          eslint-args: '--ignore-path=.gitignore'
+          eslintrc: false # Set this to true if you want to use your own .eslintrc rules
+          extensions: 'js,jsx,ts,tsx'
+          annotations: true
