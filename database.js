@@ -14,8 +14,6 @@ mongoose
     // Some common settings (You don't need to understand these)
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
     ignoreUndefined: true,
   })
   // eslint-disable-next-line no-console
