@@ -2,8 +2,8 @@
  * User CRUD controllers
  * @author Yousuf Kalim
  */
-const Users = require("../models/Users");
-const bcrypt = require("bcryptjs");
+const Users = require('../models/Users');
+const bcrypt = require('bcryptjs');
 const bcryptSalt = process.env.BCRYPT_SALT || 10;
 
 /**
@@ -19,9 +19,7 @@ exports.create = async (req, res) => {
     // Extra Validations
     if (existingUser) {
       // If we found existing user in db
-      return res
-        .status(409)
-        .json({ success: false, message: "User already exists." });
+      return res.status(409).json({ success: false, message: 'User already exists.' });
     }
 
     // Getting url of the image
@@ -37,8 +35,9 @@ exports.create = async (req, res) => {
     res.json({ success: true, user }); //Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    // eslint-disable-next-line no-console
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -53,8 +52,9 @@ exports.getAll = async (req, res) => {
     res.json({ success: true, users }); // Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    // eslint-disable-next-line no-console
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -70,8 +70,9 @@ exports.getById = async (req, res) => {
     res.json({ success: true, user }); // Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    // eslint-disable-next-line no-console
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -86,18 +87,16 @@ exports.update = async (req, res) => {
 
     // If user want to update it's password
     if (req.body.password) {
-      req.body.password = bcrypt.hashSync(
-        req.body.password,
-        parseInt(bcryptSalt)
-      );
+      req.body.password = bcrypt.hashSync(req.body.password, parseInt(bcryptSalt));
     }
 
     const user = await Users.findByIdAndUpdate(userId, req.body, { new: true }); // Updating the user
     res.json({ success: true, user }); // Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    // eslint-disable-next-line no-console
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -113,7 +112,8 @@ exports.delete = async (req, res) => {
     res.json({ success: true, user }); // Success
   } catch (err) {
     // Error handling
-    console.log("Error ----> ", err);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    // eslint-disable-next-line no-console
+    console.log('Error ----> ', err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };

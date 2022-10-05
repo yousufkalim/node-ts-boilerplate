@@ -2,10 +2,10 @@
  * Send email service for forgot password
  * @author Yousuf Kalim
  */
-var nodemailer = require("nodemailer");
-const sender_name = process.env.MAILER_DOMAIN;
-const sender_email = process.env.MAILER_EMAIL;
-const sender_password = process.env.MAILER_PASSWORD;
+var nodemailer = require('nodemailer');
+const senderName = process.env.MAILER_DOMAIN;
+const sendEmail = process.env.MAILER_EMAIL;
+const senderPassword = process.env.MAILER_PASSWORD;
 
 /**
  * sendEmail
@@ -17,29 +17,29 @@ exports.sendEmail = (email, password) => {
   return new Promise((resolve, reject) => {
     // Sender mail server config
     var transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: 'gmail',
       auth: {
-        user: sender_email,
-        pass: sender_password,
+        user: sendEmail,
+        pass: senderPassword,
       },
     });
 
     // Send email options
     var mailOptions = {
-      from: `${sender_name} <${sender_email}>`,
+      from: `${senderName} <${sendEmail}>`,
       to: email,
-      subject: "Your password has been changed",
+      subject: 'Your password has been changed',
       text: password,
     };
 
     // Sending email
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function (error) {
       if (error) {
         // Error
         reject(error);
       } else {
         // Success
-        resolve({ success: true, message: "Email sent successfully" });
+        resolve({ success: true, message: 'Email sent successfully' });
       }
     });
   });

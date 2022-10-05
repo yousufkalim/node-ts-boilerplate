@@ -2,7 +2,7 @@
  * User schema
  * @author Yousuf Kalim
  */
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Schema
 const userSchema = new mongoose.Schema(
@@ -28,12 +28,12 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female", ""],
+      enum: ['male', 'female', ''],
     },
     role: {
       type: String,
-      enum: ["admin", "user", ""],
-      default: "user",
+      enum: ['admin', 'user', ''],
+      default: 'user',
     },
     address: String,
     city: String,
@@ -42,8 +42,8 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Model
-module.exports = mongoose.model("users", userSchema);
+module.exports = mongoose.model('users', userSchema);
