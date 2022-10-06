@@ -21,16 +21,16 @@ exports.checkAuth = (req, res, next) => {
   try {
     // Decrypting token
     const token = header.split(' ')[1];
-    const decoded = jwt.verify(token, tokenSecret);
+    const { user } = jwt.verify(token, tokenSecret);
 
-    if (!decoded.user) {
+    if (!user) {
       return res.status(403).json({
         success: false,
         message: 'You are not authorized to access this resource',
       });
     }
 
-    req.user = decoded.user;
+    req.user = user;
 
     // If user authenticated
     res.set(

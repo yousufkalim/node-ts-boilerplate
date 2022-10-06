@@ -21,16 +21,16 @@ exports.checkAdminAuth = (req, res, next) => {
   try {
     // Decrypting token
     const token = header.split(' ')[1];
-    const decoded = jwt.verify(token, tokenSecret);
+    const { user } = jwt.verify(token, tokenSecret);
 
-    if (!decoded.admin) {
+    if (!user || user.role !== 'admin' || user.role !== 'superadmin') {
       return res.status(403).json({
         success: false,
         message: 'You are not authorized to access this resource',
       });
     }
 
-    req.admin = decoded.admin;
+    req.user = user;
     req.token = token;
 
     // If user authenticated

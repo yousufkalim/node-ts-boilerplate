@@ -22,6 +22,7 @@ const adminSchema = new Schema(
     role: {
       type: String,
       default: 'admin',
+      enum: ['admin', 'superadmin'],
     },
     active: {
       type: Boolean,

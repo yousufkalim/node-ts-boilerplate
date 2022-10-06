@@ -74,10 +74,11 @@ exports.login = async (req, res) => {
     }
 
     // Creating payload with admin object
-    const payload = { admin };
+    delete admin.password; // Removing password from admin object
+    const payload = { user: admin };
 
     // Generating token
-    jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
+    jwt.sign(payload, tokenSecret, { expiresIn: '8h' }, (err, token) => {
       if (err) throw err;
 
       // done
@@ -98,5 +99,5 @@ exports.login = async (req, res) => {
  */
 exports.confirmAuth = async (req, res) => {
   // If user authenticated
-  res.json({ success: true, admin: req.admin, token: req.token });
+  res.json({ success: true, admin: req.user, token: req.token });
 };

@@ -36,10 +36,11 @@ exports.login = async (req, res) => {
     }
 
     // Creating payload with user object
+    delete user.password; // Removing password from user object
     const payload = { user };
 
     // Generating token
-    jwt.sign(payload, tokenSecret, { expiresIn: 360000 }, (err, token) => {
+    jwt.sign(payload, tokenSecret, { expiresIn: '8h' }, (err, token) => {
       if (err) throw err;
 
       // done
