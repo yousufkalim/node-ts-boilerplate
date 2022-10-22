@@ -23,7 +23,7 @@ exports.checkAdminAuth = (req, res, next) => {
     const token = header.split(' ')[1];
     const { user } = jwt.verify(token, tokenSecret);
 
-    if (!user || user.role !== 'admin' || user.role !== 'superadmin') {
+    if (!user || (user.role !== 'admin' && user.role !== 'superadmin')) {
       return res.status(403).json({
         success: false,
         message: 'You are not authorized to access this resource',
