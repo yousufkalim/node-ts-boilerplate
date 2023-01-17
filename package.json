@@ -1,22 +1,22 @@
 {
-  "name": "Node-JS",
+  "name": "node-typescript",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "NodeJS boilerplate with TypeScript",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepare": "husky install"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/falconitconsultant/Node-JS.git"
+    "url": "git+https://github.com/yousufkalim/node-typescript.git"
   },
-  "author": "Yousuf Kalim",
+  "author": "Yousuf Kalim <yousufkalim@outlook.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/falconitconsultant/Node-JS/issues"
+    "url": "https://github.com/yousufkalim/node-typescript/issues"
   },
-  "homepage": "https://github.com/falconitconsultant/Node-JS#readme",
+  "homepage": "https://github.com/yousufkalim/node-typescript#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -31,11 +31,30 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/jest": "^29.2.5",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/mongoose": "^5.11.97",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
     "commitlint-config-non-conventional": "^1.0.1",
     "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^24.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
     "husky": "^8.0.0",
+    "jest": "^29.3.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "pretty-quick": "^3.1.3"
+    "pretty-quick": "^3.1.3",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "*"
   }
 }
