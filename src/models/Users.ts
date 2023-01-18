@@ -2,10 +2,11 @@
  * User schema
  * @author Yousuf Kalim
  */
-const mongoose = require('mongoose');
+import { model, Schema, Document } from 'mongoose';
+import User from 'interfaces/user';
 
 // Schema
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -28,7 +29,7 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ['male', 'female'],
+      enum: ['male', 'female', 'other'],
     },
     role: {
       type: String,
@@ -46,4 +47,4 @@ const userSchema = new mongoose.Schema(
 );
 
 // Model
-module.exports = mongoose.model('users', userSchema);
+export default model<User & Document>('User', userSchema);

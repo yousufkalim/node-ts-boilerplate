@@ -2,7 +2,8 @@
  * All the validation
  * @author Yousuf Kalim
  */
-const { check, validationResult } = require('express-validator');
+import { Request, Response, NextFunction } from 'express';
+import { check, validationResult } from 'express-validator';
 
 /*
 ====================
@@ -12,7 +13,7 @@ Validations
 
 // You can create multiple validations strategies (Read express-validator documentation for more details)
 // User Signup Validation
-exports.validateUser = [
+export const validateUser = [
   check('name', 'Name is required.').notEmpty().trim(),
   check('email', 'Email is required.').notEmpty().isEmail().trim(),
   check('password', 'Password is required.').notEmpty().trim().isLength({ min: 8 }),
@@ -25,7 +26,7 @@ exports.validateUser = [
 ];
 
 // User Signup Validation
-exports.validateUserUpdate = [
+export const validateUserUpdate = [
   check('name', 'Name is required.').notEmpty().trim(),
   check('email', 'Email is required.').notEmpty().isEmail().trim(),
   check('number', 'Number is required.').notEmpty().isNumeric().trim(),
@@ -37,13 +38,13 @@ exports.validateUserUpdate = [
 ];
 
 // Login validation
-exports.validateLogin = [
+export const validateLogin = [
   check('email', 'Email is required').notEmpty().isEmail().trim().toLowerCase(),
   check('password', 'Password is required.').notEmpty().trim().isLength({ min: 8 }),
 ];
 
 // Change password validation
-exports.changePasswordValidate = [
+export const changePasswordValidate = [
   check('oldPassword', 'Old Password is required.').notEmpty().trim().isLength({ min: 8 }),
   check('newPassword', 'New password is required.').notEmpty().trim().isLength({ min: 8 }),
   check('confirmPassword', 'Confirm password is required.').notEmpty().trim().isLength({ min: 8 }),
@@ -61,11 +62,11 @@ Result
  * @param {object} res
  * @param {*} next
  */
-exports.isValidated = (req, res, next) => {
+export const isValidated = (req: Request, res: Response, next: NextFunction): Response | void => {
   const errors = validationResult(req); // Validating the request by previous middleware's strategy
   if (!errors.isEmpty()) {
     // On error
-    res.status(400).send({ success: false, message: errors.array()[0].msg }); // Sending first error to the client from array of errors
+    return res.status(400).send({ success: false, message: errors.array()[0].msg }); // Sending first error to the client from array of errors
   } else {
     // Validated successfully
     next(); // Pass the request to next middleware or controller

@@ -1,5 +1,6 @@
 // Init
-const { Schema, model } = require('mongoose');
+import { model, Schema, Document } from 'mongoose';
+import Admin from 'interfaces/admin';
 
 // Admin Schema
 const adminSchema = new Schema(
@@ -35,4 +36,4 @@ const adminSchema = new Schema(
 );
 
 // Model
-module.exports = model('admins', adminSchema);
+export default model<Admin & Document>('Admin', adminSchema);

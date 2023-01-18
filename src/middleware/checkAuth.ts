@@ -2,16 +2,22 @@
  * Check auth middleware
  * @author Yousuf Kalim
  */
-const jwt = require('jsonwebtoken');
-const tokenSecret = process.env.JWT_SECRET;
+import { Response, NextFunction } from 'express';
+import IRequest from '../interfaces/request';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { JWT_SECRET } from 'config';
 
 // Check auth
-exports.checkAdminAuth = (req, res, next) => {
+export default function checkAuth(
+  req: IRequest,
+  res: Response,
+  next: NextFunction,
+): Response | void {
   // Get token from Header
   const header = req.get('Authorization');
 
   // Check if not token
-  if (!header || !header.startsWith('Bearer')) {
+  if (!header?.startsWith('Bearer')) {
     return res.status(403).json({
       success: false,
       message: 'No token found, Authorization denied',
@@ -21,9 +27,9 @@ exports.checkAdminAuth = (req, res, next) => {
   try {
     // Decrypting token
     const token = header.split(' ')[1];
-    const { user } = jwt.verify(token, tokenSecret);
+    const { user } = jwt.verify(token, JWT_SECRET) as JwtPayload;
 
-    if (!user || (user.role !== 'admin' && user.role !== 'superadmin')) {
+    if (!user) {
       return res.status(403).json({
         success: false,
         message: 'You are not authorized to access this resource',
@@ -31,7 +37,6 @@ exports.checkAdminAuth = (req, res, next) => {
     }
 
     req.user = user;
-    req.token = token;
 
     // If user authenticated
     res.set(
@@ -45,4 +50,4 @@ exports.checkAdminAuth = (req, res, next) => {
     // If not
     res.status(403).json({ success: false, message: 'Your session has been expired' });
   }
-};
+}

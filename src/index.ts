@@ -2,14 +2,15 @@
  * Node-JS Boilerplate
  * @author Yousuf Kalim
  */
-require('dotenv').config();
-const app = require('express')();
-const port = process.env.PORT || 5000;
-const NODE_ENV = process.env.NODE_ENV || 'dev';
-require('./database');
+import 'database';
+import express from 'express';
+import middleware from 'middleware/common';
+import { PORT, NODE_ENV } from 'config';
+
+const app = express();
 
 // Middleware
-require('./middleware/common')(app);
+middleware(app);
 
 // API Routes
 app.use('/api', require('./routes'));
@@ -22,14 +23,14 @@ if (NODE_ENV === 'prod') {
       .cpus()
       .forEach(() => cluster.fork());
   } else {
-    app.listen(port, () => {
+    app.listen(PORT, () => {
       // eslint-disable-next-line no-console
-      console.log(`Server is running in ${NODE_ENV} mode on port ` + port);
+      console.log(`Server is running in ${NODE_ENV} mode on port ${PORT}`);
     });
   }
 } else {
-  app.listen(port, () => {
+  app.listen(PORT, () => {
     // eslint-disable-next-line no-console
-    console.log(`Server is running in ${NODE_ENV} mode on port ` + port);
+    console.log(`Server is running in ${NODE_ENV} mode on port ${PORT}`);
   });
 }

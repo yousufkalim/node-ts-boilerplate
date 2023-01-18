@@ -2,19 +2,20 @@
  * User auth controllers
  * @author Yousuf Kalim
  */
-const Users = require('../models/Users');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { sendEmail } = require('../utils/sendEmail');
-const bcryptSalt = process.env.BCRYPT_SALT || 10;
-const tokenSecret = process.env.JWT_SECRET;
+import { Request, Response } from 'express';
+import IRequest from 'interfaces/request';
+import Users from 'models/Users';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { sendEmail } from 'utils/sendEmail';
+import { JWT_SECRET, BCRYPT_SALT } from 'config';
 
 /**
  * Login
  * @param {object} req
  * @param {object} res
  */
-exports.login = async (req, res) => {
+export const login = async (req: Request, res: Response): Promise<Response> => {
   try {
     // Getting email and password
     const { email, password } = req.body;
@@ -36,21 +37,19 @@ exports.login = async (req, res) => {
     }
 
     // Creating payload with user object
+    // @ts-expect-error
     delete user.password; // Removing password from user object
     const payload = { user };
 
     // Generating token
-    jwt.sign(payload, tokenSecret, { expiresIn: '8h' }, (err, token) => {
-      if (err) throw err;
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '8h' });
 
-      // done
-      res.json({ success: true, user, token });
-    });
+    return res.json({ success: true, user, token });
   } catch (err) {
     // Error handling
     // eslint-disable-next-line no-console
     console.log('Error ----> ', err);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -59,7 +58,7 @@ exports.login = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
-exports.changePassword = async (req, res) => {
+export const changePassword = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { userId } = req.params;
     const { oldPassword, newPassword, confirmPassword } = req.body;
@@ -71,7 +70,7 @@ exports.changePassword = async (req, res) => {
       });
     }
 
-    let user = await Users.findById(userId);
+    const user = await Users.findById(userId);
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
@@ -84,16 +83,16 @@ exports.changePassword = async (req, res) => {
     }
 
     // Generate token
-    user.password = bcrypt.hashSync(newPassword, parseInt(bcryptSalt));
+    user.password = bcrypt.hashSync(newPassword, BCRYPT_SALT);
 
     await user.save();
 
-    res.json({ success: true, user });
+    return res.json({ success: true, user });
   } catch (err) {
     // Error handling
     // eslint-disable-next-line no-console
     console.log('Error ----> ', err);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -102,39 +101,32 @@ exports.changePassword = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
-exports.forgot = async (req, res) => {
+export const forgot = async (req: Request, res: Response): Promise<Response> => {
   try {
-    let { email } = req.params;
-    let user = await Users.findOne({ email });
+    const { email } = req.params;
+    const user = await Users.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
     // Generating random password
-    let randomPassword = Math.random().toString(36).slice(-8);
+    const randomPassword = Math.random().toString(36).slice(-8);
 
     // Sending email to user
-    sendEmail(email, randomPassword)
-      .then(async () => {
-        // If email is sent then we have to update the password in db
-        user.password = await bcrypt.hash(randomPassword, parseInt(bcryptSalt));
-        await user.save();
+    await sendEmail(email, randomPassword);
 
-        // Done
-        res.json({ success: true, message: 'Email sent successfully' });
-      })
-      .catch((err) => {
-        // Error handling
-        // eslint-disable-next-line no-console
-        console.log('Error ----> ', err);
-        res.status(500).json({ success: false, message: 'Internal server error' });
-      });
+    // If email is sent then we have to update the password in db
+    user.password = await bcrypt.hash(randomPassword, BCRYPT_SALT);
+    await user.save();
+
+    // Done
+    return res.json({ success: true, message: 'Email sent successfully' });
   } catch (err) {
     // Error handling
     // eslint-disable-next-line no-console
     console.log('Error ----> ', err);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -143,7 +135,7 @@ exports.forgot = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
-exports.confirmAuth = async (req, res) => {
+export const confirmAuth = (req: IRequest, res: Response): Response => {
   // If user authenticated
-  res.json({ success: true, user: req.user });
+  return res.json({ success: true, user: req.user });
 };

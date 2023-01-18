@@ -2,20 +2,21 @@
  * Admin controllers
  * @author Yousuf Kalim
  */
-const Admins = require('../models/Admins');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const tokenSecret = process.env.JWT_SECRET;
-const bcryptSalt = process.env.BCRYPT_SALT || 10;
+import { Request, Response } from 'express';
+import Admins from 'models/Admins';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import IRequest from 'interfaces/request';
+import { JWT_SECRET, BCRYPT_SALT } from 'config';
 
 /**
  * Create Admin - Signup
  * @param {object} req
  * @param {object} res
  */
-exports.register = async (req, res) => {
+export const register = async (req: Request, res: Response): Promise<Response> => {
   try {
-    let { email, password, confirmPassword } = req.body; // Getting required fields from body
+    const { email, password, confirmPassword } = req.body; // Getting required fields from body
     const existingAdmin = await Admins.findOne({ email }); // Finding already existing user
 
     // Extra Validations
@@ -31,16 +32,16 @@ exports.register = async (req, res) => {
     }
 
     // Creating User
-    req.body.password = bcrypt.hashSync(password, parseInt(bcryptSalt)); // Hashing the password with salt 8
+    req.body.password = bcrypt.hashSync(password, BCRYPT_SALT); // Hashing the password with salt 8
     const admin = await Admins.create(req.body); // Adding user in db
 
     // Done
-    res.json({ success: true, admin }); //Success
+    return res.json({ success: true, admin }); // Success
   } catch (err) {
     // Error handling
     // eslint-disable-next-line no-console
     console.log('Error ----> ', err);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -49,13 +50,13 @@ exports.register = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
-exports.login = async (req, res) => {
+export const login = async (req: Request, res: Response): Promise<Response> => {
   try {
     // Getting email and password
     const { email, password } = req.body;
 
     // Getting user from db
-    let admin = await Admins.findOne({ email });
+    const admin = await Admins.findOne({ email });
 
     if (!admin) {
       // If admin not found
@@ -74,21 +75,20 @@ exports.login = async (req, res) => {
     }
 
     // Creating payload with admin object
+    // @ts-expect-error
     delete admin.password; // Removing password from admin object
     const payload = { user: admin };
 
     // Generating token
-    jwt.sign(payload, tokenSecret, { expiresIn: '8h' }, (err, token) => {
-      if (err) throw err;
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '8h' });
 
-      // done
-      res.json({ success: true, admin, token });
-    });
+    // done
+    return res.json({ success: true, admin, token });
   } catch (err) {
     // Error handling
     // eslint-disable-next-line no-console
     console.log('Error ----> ', err);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    return res.status(500).json({ success: false, message: 'Internal server error' });
   }
 };
 
@@ -97,7 +97,7 @@ exports.login = async (req, res) => {
  * @param {object} req
  * @param {object} res
  */
-exports.confirmAuth = async (req, res) => {
+export const confirmAuth = (req: IRequest, res: Response): Response => {
   // If user authenticated
-  res.json({ success: true, admin: req.user, token: req.token });
+  return res.json({ success: true, admin: req.user, token: req.token });
 };
