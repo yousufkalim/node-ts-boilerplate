@@ -3,9 +3,11 @@
  * @author Yousuf Kalim
  */
 import 'database';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import middleware from 'middleware/commons.middleware';
 import { PORT, NODE_ENV } from 'config';
+import welcomePage from 'utils/welcomePage';
+import page404 from 'utils/404Page';
 
 const app = express();
 
@@ -13,7 +15,9 @@ const app = express();
 middleware(app);
 
 // API Routes
-app.use('/api/v1', require('./routes/index.route'));
+app.get('/', (_req: Request, res: Response) => res.send(welcomePage)); // Welcome page
+app.use('/api/v1', require('./routes/index.route')); // API Routes
+app.use('/*', (req: Request, res: Response) => res.send(page404(req.originalUrl))); // 404 page
 
 // If we are in production mode, then we will use the cluster mode to create multiple processes
 if (NODE_ENV === 'prod') {
