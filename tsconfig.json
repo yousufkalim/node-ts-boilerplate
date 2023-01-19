@@ -1,31 +1,29 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["esnext", "esnext.asynciterable"],
-    "typeRoots": ["node_modules/@types"],
+    "target": "es2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist",
     "strict": true,
-    "noImplicitOverride": true,
+    "strictPropertyInitialization": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "stripInternal": true,
     "esModuleInterop": true,
-    "skipDefaultLibCheck": false,
-    "skipLibCheck": false,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "incremental": true,
-    "outDir": "dist",
     "baseUrl": "src",
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "module": "commonjs",
-    "resolveJsonModule": true,
-    "importHelpers": true,
-    "noEmit": true,
-    "declaration": true
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "pretty": true,
+    "lib": ["es2018", "esnext.asynciterable"],
+    "typeRoots": ["node_modules/@types"],
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"],
   "exclude": [
@@ -33,7 +31,6 @@
     "src/**/__tests__",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
-    "tests",
-    "dist"
+    "tests"
   ]
 }
