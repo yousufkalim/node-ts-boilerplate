@@ -3,12 +3,12 @@
  * @author Yousuf Kalim
  */
 import { Request, Response } from 'express';
-import IRequest from 'interfaces/request.interface';
-import Users from 'models/users.model';
+import IRequest from '@interfaces/request.interface';
+import Users from '@models/users.model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { sendEmail } from 'utils/sendEmail';
-import { JWT_SECRET, BCRYPT_SALT } from 'config';
+import { sendEmail } from '@utils/sendEmail';
+import { JWT_SECRET, BCRYPT_SALT } from '@config';
 
 /**
  * Login

@@ -4,8 +4,8 @@
  */
 import { Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import IRequest from 'interfaces/request.interface';
-import { JWT_SECRET } from 'config';
+import IRequest from '@interfaces/request.interface';
+import { JWT_SECRET } from '@config';
 
 // Check auth
 export const checkAdminAuth = (

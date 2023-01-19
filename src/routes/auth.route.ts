@@ -3,13 +3,13 @@
  * @author Yousuf Kalim
  */
 import { Router } from 'express';
-import { login, confirmAuth, changePassword, forgot } from 'controllers/auth.controller';
-import { checkUserAuth } from 'middleware/auth.middleware';
+import { login, confirmAuth, changePassword, forgot } from '@controllers/auth.controller';
+import { checkUserAuth } from '@middleware/auth.middleware';
 import {
   validateLogin,
   isValidated,
   changePasswordValidate,
-} from 'middleware/validations.middleware';
+} from '@middleware/validations.middleware';
 const router = Router();
 
 /**

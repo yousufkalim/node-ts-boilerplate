@@ -15,7 +15,16 @@
     "esModuleInterop": true,
     "baseUrl": "src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["*"],
+      "@config": ["config"],
+      "@database": ["database"],
+      "@controllers/*": ["controllers/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@middleware/*": ["middleware/*"],
+      "@models/*": ["models/*"],
+      "@routes/*": ["routes/*"],
+      "@services/*": ["services/*"],
+      "@utils/*": ["utils/*"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -27,10 +36,12 @@
   },
   "include": ["src/**/*"],
   "exclude": [
-    "**/node_modules",
+    "node_modules",
     "src/**/__tests__",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
+    "src/http",
+    "src/logs",
     "tests"
   ]
 }

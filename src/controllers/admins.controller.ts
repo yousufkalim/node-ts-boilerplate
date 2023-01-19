@@ -3,11 +3,11 @@
  * @author Yousuf Kalim
  */
 import { Request, Response } from 'express';
-import Admins from 'models/admins.model';
+import Admins from '@models/admins.model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import IRequest from 'interfaces/request.interface';
-import { JWT_SECRET, BCRYPT_SALT } from 'config';
+import IRequest from '@interfaces/request.interface';
+import { JWT_SECRET, BCRYPT_SALT } from '@config';
 
 /**
  * Create Admin - Signup

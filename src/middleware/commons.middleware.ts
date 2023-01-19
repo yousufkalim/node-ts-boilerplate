@@ -5,7 +5,7 @@
 import express, { Application } from 'express';
 import logger from 'morgan';
 import cors from 'cors';
-import { NODE_ENV } from 'config';
+import { NODE_ENV } from '@config';
 
 // Common Middleware
 export default function middleware(app: Application): void {

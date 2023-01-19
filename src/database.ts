@@ -3,7 +3,7 @@
  * @author Yousuf Kalim
  */
 import { set, connect } from 'mongoose';
-import { MONGODB_URI } from 'config';
+import { MONGODB_URI } from '@config';
 
 // Setting
 set('debug', true);

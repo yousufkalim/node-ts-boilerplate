@@ -1,4 +1,4 @@
-import { APP_NAME } from 'config';
+import { APP_NAME } from '@config';
 
 const welcomePage = `<!DOCTYPE html>
 <html>
