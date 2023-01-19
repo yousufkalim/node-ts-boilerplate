@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest",
+    "start": "nodemon",
     "prepare": "husky install"
   },
   "repository": {

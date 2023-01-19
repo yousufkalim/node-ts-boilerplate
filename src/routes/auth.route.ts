@@ -9,7 +9,7 @@ import {
   validateLogin,
   isValidated,
   changePasswordValidate,
-} from 'middleware/validators.middleware';
+} from 'middleware/validations.middleware';
 const router = Router();
 
 /**

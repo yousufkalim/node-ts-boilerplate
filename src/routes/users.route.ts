@@ -6,7 +6,7 @@ import { Router } from 'express';
 import { create, update, getAll, getById, deleteUser } from 'controllers/users.controller';
 import { checkUserAuth } from 'middleware/auth.middleware';
 import { upload } from 'middleware/multer.middleware';
-import { validateUser, validateUserUpdate, isValidated } from 'middleware/validators.middleware';
+import { validateUser, validateUserUpdate, isValidated } from 'middleware/validations.middleware';
 const router = Router();
 
 /**
