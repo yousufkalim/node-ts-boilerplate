@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { register, login, confirmAuth } from 'controllers/admins';
-import checkAdminAuth from 'middleware/adminAuth';
+import { register, login, confirmAuth } from 'controllers/admins.controller';
+import { checkAdminAuth } from 'middleware/auth.middleware';
 const router = Router();
 
 // Admin Register

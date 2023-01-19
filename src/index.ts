@@ -4,7 +4,7 @@
  */
 import 'database';
 import express from 'express';
-import middleware from 'middleware/common';
+import middleware from 'middleware/commons.middleware';
 import { PORT, NODE_ENV } from 'config';
 
 const app = express();
@@ -13,7 +13,7 @@ const app = express();
 middleware(app);
 
 // API Routes
-app.use('/api', require('./routes'));
+app.use('/api/v1', require('./routes/index.route'));
 
 // If we are in production mode, then we will use the cluster mode to create multiple processes
 if (NODE_ENV === 'prod') {

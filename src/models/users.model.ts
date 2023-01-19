@@ -3,7 +3,7 @@
  * @author Yousuf Kalim
  */
 import { model, Schema, Document } from 'mongoose';
-import User from 'interfaces/user';
+import User from 'interfaces/users.interface';
 
 // Schema
 const userSchema = new Schema(

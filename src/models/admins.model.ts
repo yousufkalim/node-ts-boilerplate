@@ -1,6 +1,6 @@
 // Init
 import { model, Schema, Document } from 'mongoose';
-import Admin from 'interfaces/admin';
+import Admin from 'interfaces/admins.interface';
 
 // Admin Schema
 const adminSchema = new Schema(

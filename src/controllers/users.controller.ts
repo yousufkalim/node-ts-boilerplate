@@ -3,7 +3,7 @@
  * @author Yousuf Kalim
  */
 import { Request, Response } from 'express';
-import Users from 'models/Users';
+import Users from 'models/users.model';
 import bcrypt from 'bcryptjs';
 import { BCRYPT_SALT } from 'config';
 
