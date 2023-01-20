@@ -7,7 +7,9 @@ import Admins from '@models/admins.model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import IRequest from '@interfaces/request.interface';
+import Admin from '@interfaces/admins.interface';
 import { JWT_SECRET, BCRYPT_SALT } from '@config';
+import Auth from '@interfaces/auth.interface';
 
 /**
  * Create Admin - Signup
@@ -15,8 +17,10 @@ import { JWT_SECRET, BCRYPT_SALT } from '@config';
  * @param {object} res
  */
 export const register = async (req: Request, res: Response): Promise<Response> => {
+  const body: Admin & { confirmPassword: string } = req.body;
+
   try {
-    const { email, password, confirmPassword } = req.body; // Getting required fields from body
+    const { email, password, confirmPassword } = body; // Getting required fields from body
     const existingAdmin = await Admins.findOne({ email }); // Finding already existing user
 
     // Extra Validations
@@ -32,8 +36,8 @@ export const register = async (req: Request, res: Response): Promise<Response> =
     }
 
     // Creating User
-    req.body.password = bcrypt.hashSync(password, BCRYPT_SALT); // Hashing the password with salt 8
-    const admin = await Admins.create(req.body); // Adding user in db
+    body.password = bcrypt.hashSync(password, BCRYPT_SALT); // Hashing the password with salt 8
+    const admin = await Admins.create(body); // Adding user in db
 
     // Done
     return res.json({ success: true, admin }); // Success
@@ -51,9 +55,11 @@ export const register = async (req: Request, res: Response): Promise<Response> =
  * @param {object} res
  */
 export const login = async (req: Request, res: Response): Promise<Response> => {
+  const body: Auth = req.body;
+
   try {
     // Getting email and password
-    const { email, password } = req.body;
+    const { email, password } = body;
 
     // Getting user from db
     const admin = await Admins.findOne({ email });

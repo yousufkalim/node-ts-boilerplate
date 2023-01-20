@@ -4,6 +4,7 @@
  */
 import { Request, Response } from 'express';
 import Users from '@models/users.model';
+import User from '@interfaces/users.interface';
 import bcrypt from 'bcryptjs';
 import { BCRYPT_SALT } from '@config';
 
@@ -13,8 +14,10 @@ import { BCRYPT_SALT } from '@config';
  * @param {object} res
  */
 export const create = async (req: Request, res: Response): Promise<Response> => {
+  const body: User = req.body;
+
   try {
-    const { email, password } = req.body; // Getting required fields from body
+    const { email, password } = body; // Getting required fields from body
     const existingUser = await Users.findOne({ email }); // Finding already existing user
 
     // Extra Validations
@@ -25,12 +28,12 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
 
     // Getting url of the image
     if (req.file) {
-      req.body.photo = req.file.path; // Creating a new property called photo in body object
+      body.photo = req.file.path; // Creating a new property called photo in body object
     }
 
     // Creating User
-    req.body.password = bcrypt.hashSync(password, BCRYPT_SALT); // Hashing the password with salt 8
-    const user = await Users.create(req.body); // Adding user in db
+    body.password = bcrypt.hashSync(password, BCRYPT_SALT); // Hashing the password with salt 8
+    const user = await Users.create(body); // Adding user in db
 
     // Done
     return res.json({ success: true, user }); // Success
@@ -83,15 +86,17 @@ export const getById = async (req: Request, res: Response): Promise<Response> =>
  * @param {object} res
  */
 export const update = async (req: Request, res: Response): Promise<Response> => {
+  const body: User = req.body;
+
   try {
     const userId = req.params.userId; // Getting user id from URL parameter
 
     // If user want to update it's password
-    if (req.body.password) {
-      req.body.password = bcrypt.hashSync(req.body.password, BCRYPT_SALT);
+    if (body.password) {
+      body.password = bcrypt.hashSync(body.password, BCRYPT_SALT);
     }
 
-    const user = await Users.findByIdAndUpdate(userId, req.body, { new: true }); // Updating the user
+    const user = await Users.findByIdAndUpdate(userId, body, { new: true }); // Updating the user
     return res.json({ success: true, user }); // Success
   } catch (err) {
     // Error handling

@@ -4,6 +4,7 @@
  */
 import { Request, Response } from 'express';
 import IRequest from '@interfaces/request.interface';
+import Auth, { ChangePassword } from '@interfaces/auth.interface';
 import Users from '@models/users.model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -16,9 +17,11 @@ import { JWT_SECRET, BCRYPT_SALT } from '@config';
  * @param {object} res
  */
 export const login = async (req: Request, res: Response): Promise<Response> => {
+  const body: Auth = req.body;
+
   try {
     // Getting email and password
-    const { email, password } = req.body;
+    const { email, password } = body;
 
     // Getting user from db
     const user = await Users.findOne({ email });
@@ -59,9 +62,11 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
  * @param {object} res
  */
 export const changePassword = async (req: Request, res: Response): Promise<Response> => {
+  const { userId } = req.params;
+  const body: ChangePassword = req.body;
+
   try {
-    const { userId } = req.params;
-    const { oldPassword, newPassword, confirmPassword } = req.body;
+    const { oldPassword, newPassword, confirmPassword } = body;
 
     if (newPassword !== confirmPassword) {
       return res.status(400).json({
