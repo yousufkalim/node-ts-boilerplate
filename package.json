@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yousufkalim/node-typescript.git"
+    "url": "git+https://github.com/yousufkalim/node-ts-boilerplate.git"
   },
   "author": "Yousuf Kalim <yousufkalim@outlook.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yousufkalim/node-typescript/issues"
+    "url": "https://github.com/yousufkalim/node-ts-boilerplate/issues"
   },
-  "homepage": "https://github.com/yousufkalim/node-typescript#readme",
+  "homepage": "https://github.com/yousufkalim/node-ts-boilerplate#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
