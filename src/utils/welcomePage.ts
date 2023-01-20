@@ -1,3 +1,7 @@
+/**
+ * Welcome page for the application.
+ * @author Yousuf Kalim
+ */
 import { APP_NAME } from '@config';
 
 const welcomePage = `<!DOCTYPE html>

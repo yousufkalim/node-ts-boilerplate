@@ -1,3 +1,7 @@
+/**
+ * Page 404 - Not Found
+ * @author Yousuf Kalim
+ */
 const page404 = (path: string): string => {
   return `<!DOCTYPE html>
 <html lang="en">

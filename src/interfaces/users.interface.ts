@@ -1,3 +1,7 @@
+/**
+ * User interfaces - Where we define all the interfaces for Users
+ * @author Yousuf Kalim
+ */
 export default interface User {
   name: string;
   email: string;

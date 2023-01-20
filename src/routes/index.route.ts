@@ -11,4 +11,4 @@ router.use('/users', require('./users.route')); // All the user routes
 router.use('/auth', require('./auth.route')); // All the auth routes
 
 // Export
-module.exports = router;
+export default router;

@@ -1,4 +1,7 @@
-// Init
+/**
+ * Admin schema
+ * @author Yousuf Kalim
+ */
 import { model, Schema, Document } from 'mongoose';
 import Admin from '@interfaces/admins.interface';
 

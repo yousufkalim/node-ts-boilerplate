@@ -32,4 +32,4 @@ router.put('/:userId', checkUserAuth, validateUserUpdate, isValidated, update); 
 router.delete('/:userId', checkUserAuth, deleteUser); // delete a specific user by it's id
 
 // Export
-module.exports = router;
+export default router;
