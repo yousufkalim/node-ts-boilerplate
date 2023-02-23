@@ -3,6 +3,7 @@
  * @author Yousuf Kalim
  */
 import '@database';
+import '@utils/eventHandler';
 import express, { Request, Response } from 'express';
 import middleware from '@middleware/commons.middleware';
 import APIRoutes from '@routes/index.route';
