@@ -1,0 +1,34 @@
+# ---------------- Developed by Yousuf Kalim - MERN TL ---------------- #
+# This workflow is a Continuous Integration (CI) pipeline for testing a Node.js backend application.
+
+name: 'CI'
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted # Set this to 'ubuntu-latest' if you're not hosting your repo on falcon
+
+    steps:
+      # The first step checks out the code from the repository.
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # The second step sets up Node.js with version 16.
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      # The third step installs the dependencies.
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      # The fourth step creates a build.
+      - name: Create build
+        run: |
+          CI= yarn run build
